@@ -522,3 +522,21 @@ def STDiT2_XL_2(from_pretrained=None, **kwargs):
         config = STDiT2Config(depth=28, hidden_size=1152, patch_size=(1, 2, 2), num_heads=16, **kwargs)
         model = STDiT2(config)
     return model
+
+@MODELS.register_module("STDiT2-Base/2")
+def STDiT2_Base_2(from_pretrained=None, **kwargs):
+    if from_pretrained is not None:
+        if os.path.isdir(from_pretrained) or os.path.isfile(from_pretrained):
+            # if it is a directory or a file, we load the checkpoint manually
+            config = STDiT2Config(depth=12, hidden_size=768, patch_size=(1, 2, 2), num_heads=8, **kwargs)
+            model = STDiT2(config)
+            load_checkpoint(model, from_pretrained)
+            return model
+        else:
+            # otherwise, we load the model from hugging face hub
+            return STDiT2.from_pretrained(from_pretrained)
+    else:
+        # create a new model
+        config = STDiT2Config(depth=12, hidden_size=768, patch_size=(1, 2, 2), num_heads=8, **kwargs)
+        model = STDiT2(config)
+    return model

@@ -19,6 +19,9 @@ SAMPLES_PER_TASK = 100
 MAX_SAME_FRAME = 5
 FPS = 20
 OUTPUT_DIR = "/local2/xingcheng/data/phyre"
+SPLIT = "train"
+
+#TODO: write meta data to a .csv file in each process
 
 def sample_phyre_video_worker(task_ids, simulator, actions, eval_setup, splits):
     
@@ -81,6 +84,11 @@ def sample_phyre_data():
         
         action_tier = phyre.eval_setup_to_action_tier(eval_setup)
 
+        if SPLIT == "test":
+            train_tasks = test_tasks
+        elif SPLIT == "dev":
+            train_tasks = dev_tasks
+
         # Create the simulator from the tasks and tier.
         simulator = phyre.initialize_simulator(train_tasks, action_tier)
         actions = simulator.build_discrete_action_space(max_actions=SAMPLES_PER_TASK * 10)
@@ -90,7 +98,7 @@ def sample_phyre_data():
         task_ids = list(range(len(train_tasks)))
         num_tasks_per_proc = math.ceil(len(train_tasks) / NUM_WORKER)
         jobs = [
-            (task_ids[ids:ids+num_tasks_per_proc], simulator, actions, eval_setup, "train") for ids in range(0, len(train_tasks), num_tasks_per_proc)
+            (task_ids[ids:ids+num_tasks_per_proc], simulator, actions, eval_setup, SPLIT) for ids in range(0, len(train_tasks), num_tasks_per_proc)
         ]
         with multiprocessing.Pool(processes=NUM_WORKER) as pool:
             # Use pool.starmap to pass multiple arguments to worker_process

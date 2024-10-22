@@ -476,6 +476,17 @@ def STDiT3_XL_2(from_pretrained=None, **kwargs):
             load_checkpoint(model, from_pretrained)
     return model
 
+@MODELS.register_module("STDiT3-Base/2")
+def STDiT3_Base_2(from_pretrained=None, **kwargs):
+    force_huggingface = kwargs.pop("force_huggingface", False)
+    if force_huggingface or from_pretrained is not None and not os.path.exists(from_pretrained):
+        model = STDiT3.from_pretrained(from_pretrained, **kwargs)
+    else:
+        config = STDiT3Config(depth=8, hidden_size=512, patch_size=(1, 2, 2), num_heads=8, **kwargs)
+        model = STDiT3(config)
+        if from_pretrained is not None:
+            load_checkpoint(model, from_pretrained)
+    return model
 
 @MODELS.register_module("STDiT3-3B/2")
 def STDiT3_3B_2(from_pretrained=None, **kwargs):
