@@ -1,2 +1,2 @@
 torchrun --standalone --nproc_per_node 4 scripts/train.py \
-    configs/phyv/train_base.py --data-path ../data/phyre/meta_info_cond.csv --flash-attn True
+    configs/phyv/train_base.py --data-path ../data/phyre/meta_info_cond.csv --flash-attn True --ckpt-path /local2/xingcheng/Open-Sora/outputs/025-STDiT3-Base-2/epoch0-global_step30400 --load /local2/xingcheng/Open-Sora/outputs/025-STDiT3-Base-2/epoch0-global_step30400

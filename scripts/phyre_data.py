@@ -19,7 +19,7 @@ SAMPLES_PER_TASK = 100
 MAX_SAME_FRAME = 5
 FPS = 20
 OUTPUT_DIR = "/local2/xingcheng/data/phyre"
-SPLIT = "train"
+SPLIT = "test"
 
 #TODO: write meta data to a .csv file in each process
 

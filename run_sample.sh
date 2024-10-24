@@ -1,0 +1,1 @@
+python scripts/inference_class.py configs/phyv/sample.py

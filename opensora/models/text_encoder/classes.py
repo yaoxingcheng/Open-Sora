@@ -19,4 +19,5 @@ class ClassEncoder:
         return dict(y=torch.stack(cids, dim=0).unsqueeze(1).to(self.dtype).to(self.device))
 
     def null(self, n):
-        return torch.tensor([self.num_classes] * n).to(self.device)
+        cids = torch.zeros((1, n, self.num_classes))
+        return cids.unsqueeze(1).to(self.dtype).to(self.device)
